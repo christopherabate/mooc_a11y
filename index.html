@@ -1,0 +1,890 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Accessibility MOOC</title>
+</head>
+
+<body>
+  <a href="#main-content">Skip to main content</a>
+
+  <header>
+    <h1>Digital Accessibility MOOC</h1>
+
+    <nav id="main-navigation" aria-label="Main navigation">
+      <h2>Accessibility tests</h2>
+
+      <ul>
+        <li>
+          <a href="#test-content">
+            1. Content and alternatives
+          </a>
+        </li>
+        <li>
+          <a href="#test-structure">
+            2. Structure, metadata and reading order
+          </a>
+        </li>
+        <li>
+          <a href="#test-colour">
+            3. Colour and contrast
+          </a>
+        </li>
+        <li>
+          <a href="#test-resizing">
+            4. Text resizing, reflow and orientation
+          </a>
+        </li>
+        <li>
+          <a href="#test-navigation">
+            5. Keyboard and sequential navigation
+          </a>
+        </li>
+        <li>
+          <a href="#test-interactive">
+            6. Interactive elements and touch targets
+          </a>
+        </li>
+        <li>
+          <a href="#test-names">
+            7. Accessible names, roles and states
+          </a>
+        </li>
+        <li>
+          <a href="#test-forms">
+            8. Forms and error handling
+          </a>
+        </li>
+        <li>
+          <a href="#test-links">
+            9. Links, tables and lists
+          </a>
+        </li>
+        <li>
+          <a href="#test-dynamic">
+            10. Dynamic content and media
+          </a>
+        </li>
+        <li>
+          <a href="#test-assistive">
+            11. Assistive technology support
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+    <article id="test-content">
+      <h2>1. Content and alternatives</h2>
+
+      <p>
+        Check that all meaningful content is available to users regardless
+        of how it is presented.
+      </p>
+
+      <p>Voici 4 images, identifiez les images décorative, porteuses de sens....</p>
+      <p>QCM</p>
+      <p>puis explications de comment tester efficacement avec des onglets par techno</p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Review images, icons, graphics and other non-text content.
+            Identify whether each visual element is decorative,
+            informative, functional or conveys complex information.
+            Check that meaningful visual information has an appropriate
+            text alternative.
+          </p>
+
+          <p>
+            Review audio and video content and identify the alternatives
+            required to understand its information, such as captions,
+            transcripts or audio descriptions.
+          </p>
+
+          <p>
+            Check that informative text is not embedded in images when
+            the same information can be provided as real text.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Informative images and graphics have relevant alternatives.
+            Decorative content is correctly identified as decorative.
+            Functional images have an accessible name that describes
+            their purpose.
+          </p>
+
+          <p>
+            Complex graphics provide an appropriate textual description.
+            Audio and video provide the required alternatives.
+            Essential information is not available only visually or audibly.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Browser accessibility inspector,
+            document accessibility checker,
+            screen reader,
+            NVDA,
+            JAWS,
+            TalkBack,
+            VoiceOver.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            All meaningful information conveyed by images, graphics,
+            audio or video is available through an appropriate
+            accessible alternative.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-structure">
+      <h2>2. Structure, metadata and reading order</h2>
+
+      <p>
+        Check that web pages, mobile screens and documents have a meaningful
+        structure, appropriate metadata and a logical reading order.
+      </p>
+
+      <p>Voici le plan d'un document (mal fait), identifiez les éléments potentielllement problematiques</p>
+      <p>clic sur le title, popin</p>
+      <p>clic sur la liste, popin</p>
+      <p>clic sur les titres, popin</p>
+      <p>clic sur le tableau, popin</p>
+      <p>clic sur la langue ou un texte en langue etrangère, popin</p>
+      <p>Jauge / compteur du nombre d'erreurs trouvés (jeu des 7 différences)</p>
+      <p>puis explications de comment tester efficacement avec des onglets par techno</p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Inspect the structure of the page, screen or document.
+            Check the page or document title, language, headings and
+            their hierarchy, sections, paragraphs, lists, tables and
+            other semantic structures.
+          </p>
+
+          <p>
+            Navigate through the content using an assistive technology
+            and compare the reading order with the intended visual
+            and logical order.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Titles identify the current page, screen or document and
+            follow a meaningful naming convention.
+            The primary language is correctly identified.
+          </p>
+
+          <p>
+            Headings follow a logical hierarchy.
+            Sections and content are organised meaningfully.
+            Lists and tables use an appropriate semantic structure.
+            The reading order corresponds to the intended meaning.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Browser accessibility inspector,
+            browser developer tools,
+            document accessibility checker,
+            document reading-order tools,
+            screen reader.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            The structure, metadata, semantics and reading order are
+            understandable without relying solely on visual presentation.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-colour">
+      <h2>3. Colour and contrast</h2>
+
+      <p>
+        Check that content remains perceivable and that information is not
+        conveyed through colour alone.
+      </p>
+
+      <p>Quel texte n'est pas suffisament lisible pour vous ?</p>
+      <p>4 textes dont 1 pas suffisament contrasté</p>
+      <p>QCM : Bravo vos yeux viennenet de réaliser un text de contraste !</p>
+      <p>puis explications de comment tester efficacement avec des onglets par techno</p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Identify text, backgrounds, icons, controls, focus indicators
+            and graphical elements whose visibility depends on colour
+            or contrast.
+          </p>
+
+          <p>
+            Check information conveyed by colour, such as errors,
+            selection, status, required fields or links.
+            Check relevant states in supported colour themes,
+            including light and dark modes where applicable.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Text has sufficient contrast against its background.
+            Interactive components and meaningful graphical elements
+            have sufficient contrast where required.
+          </p>
+
+          <p>
+            Focus indicators are clearly visible.
+            Important information is not conveyed through colour alone.
+            Error, selected, active and disabled states remain
+            distinguishable.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            <a href="https://www.tpgi.com/color-contrast-checker/">
+              Colour Contrast Analyser
+            </a>,
+            browser accessibility tools,
+            document accessibility tools,
+            and manual visual inspection.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            Required contrast levels are met and information remains
+            understandable without relying on colour perception alone.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-resizing">
+      <h2>4. Text resizing, reflow and orientation</h2>
+
+      <p>
+        Check that content remains readable and usable when text or display
+        settings are enlarged or the device orientation changes.
+      </p>
+
+      <p>Que se passe t il si vous avec besoin de grossir la taille des caractères ?</p>
+      <p>QCM</p>
+      <p>puis explications de comment tester efficacement avec des onglets par techno</p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Increase text size and zoom the content using the relevant
+            browser, operating system, mobile or document settings.
+            Test the interface at increased text sizes and, where applicable,
+            at 200% zoom.
+          </p>
+
+          <p>
+            For web content, test reflow at a narrow viewport, including
+            approximately 320 CSS pixels where applicable.
+            On mobile devices, test supported portrait and landscape
+            orientations.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Text remains readable.
+            Content reflows without inappropriate two-dimensional scrolling,
+            except where two-dimensional presentation is essential,
+            such as certain complex tables.
+          </p>
+
+          <p>
+            Buttons, fields, menus, tables and other functionality remain
+            usable.
+            No important content is clipped, hidden or overlapped.
+          </p>
+
+          <p>
+            Content remains available in supported orientations unless
+            a specific orientation is functionally required.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Browser zoom,
+            browser responsive mode,
+            Android text-size settings,
+            iOS Dynamic Type,
+            device orientation settings,
+            document zoom.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            Users can access and operate the complete experience when
+            text is enlarged, the viewport changes or the device
+            orientation changes.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-navigation">
+      <h2>5. Keyboard and sequential navigation</h2>
+
+      <p>
+        Check that the complete experience can be navigated in a logical
+        order without traps.
+      </p>
+
+      <p>Votre souris n'as plus de batterie, c'est embetant pour cliquer sur le bouton suivant. Sauf si vous pouvez naviger à l'aide de votre clavier</p>
+      <p>Affichage des touches tab ....</p>
+      <p>Bonton suivant</p>
+      <p>puis explications de comment tester efficacement avec des onglets par techno</p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Navigate through the complete interface using a keyboard,
+            sequential navigation mechanism or equivalent assistive input.
+            Move through interactive elements, content regions and controls.
+          </p>
+
+          <p>
+            Test forward and backward navigation and attempt to leave
+            every component.
+            For non-standard components, verify that keyboard interaction
+            and focus behaviour are explicitly defined.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Navigation order is logical and predictable.
+            All required interactive elements can be reached.
+            Focus remains visible and moves in an expected order.
+          </p>
+
+          <p>
+            No component traps the user.
+            Components do not require mouse hover to expose essential
+            information or functionality.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Keyboard,
+            TalkBack,
+            VoiceOver,
+            Switch Access,
+            Switch Control,
+            and document navigation tools.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            The complete experience can be navigated in a logical order
+            without a keyboard, focus or sequential navigation trap.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-interactive">
+      <h2>6. Interactive elements and touch targets</h2>
+
+      <p>
+        Check that interactive elements can be reached, identified and
+        operated using different input methods.
+      </p>
+
+      <p>Quand utiliser un lien et un bouton</p>
+      <p>QCM</p>
+      <p>puis explications de comment tester efficacement avec des onglets par techno</p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Test buttons, links, fields, tabs, menus, checkboxes, radio
+            buttons, sliders and other interactive controls.
+          </p>
+
+          <p>
+            Verify that links and buttons are used consistently:
+            links navigate to a destination, while buttons perform
+            an action.
+          </p>
+
+          <p>
+            On touch devices, check the size and spacing of touch targets.
+            Test gestures and verify that an accessible alternative is
+            available when a specific gesture is not essential.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Every required interactive element can be reached and operated.
+            Links and buttons have appropriate semantics and behaviour.
+          </p>
+
+          <p>
+            Touch targets have sufficient size and spacing for the
+            applicable platform requirements.
+            Interaction does not rely exclusively on precise touch,
+            pointer movement or a visual interface.
+          </p>
+
+          <p>
+            Non-standard components provide an equivalent accessible
+            way to perform their function.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Keyboard,
+            touch device,
+            accessibility inspector,
+            screen reader,
+            Switch Access,
+            Switch Control.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            All required interactions can be completed using an appropriate
+            input method without relying exclusively on touch, pointer
+            precision or visual interaction.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-names">
+      <h2>7. Accessible names, roles and states</h2>
+
+      <p>
+        Check that assistive technologies can correctly identify controls,
+        their purpose and their current state.
+      </p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Inspect and navigate interactive components.
+            Check their accessible name, role and state.
+          </p>
+
+          <p>
+            Check all relevant component states, including default,
+            hover, focus, active or pressed, selected, checked,
+            expanded, collapsed, disabled, error, success and loading.
+          </p>
+
+          <p>
+            Pay particular attention to custom components and icon-only
+            controls.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Each interactive element has a meaningful accessible name
+            and an appropriate role.
+            Its current state and relevant properties are correctly
+            exposed to assistive technologies.
+          </p>
+
+          <p>
+            Visible labels and accessible names are consistent.
+            Repeated controls have sufficiently specific and distinguishable
+            names.
+            Decorative elements are not unnecessarily exposed.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Browser accessibility inspector,
+            Android accessibility tools,
+            iOS accessibility tools,
+            document accessibility checker,
+            screen reader.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            The purpose, role, name and current state of every relevant
+            component are correctly communicated to the user.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-forms">
+      <h2>8. Forms and error handling</h2>
+
+      <p>
+        Check that users can understand, complete and correct forms.
+      </p>
+
+      <p>Remplissez ce formulaire pour passer à la suite:</p>
+      <p>Formulaire non accessible avec des gestion d'erreur</p>
+      <p>Bonton continuer</p>
+      <p>puis explications de comment tester efficacement avec des onglets par techno</p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Navigate through all form fields.
+            Check that each field has a visible, relevant label located
+            close to the field.
+          </p>
+
+          <p>
+            Check required fields, instructions, expected input formats
+            and autocomplete information where applicable.
+            Verify that required fields are identified using text or a
+            clearly explained convention such as an asterisk.
+          </p>
+
+          <p>
+            Submit the form with missing, invalid and incorrect data.
+            Check how validation errors are presented and announced.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Every field has a meaningful visible label and accessible name.
+            A placeholder is not used as the only label.
+          </p>
+
+          <p>
+            Required fields and expected input formats are understandable.
+            Errors identify the affected field and clearly explain
+            the reason for the error.
+          </p>
+
+          <p>
+            Error messages are programmatically associated with their
+            fields and dynamically communicated when necessary.
+            Users can identify and correct errors.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Browser accessibility inspector,
+            mobile accessibility tools,
+            document accessibility checker,
+            screen reader,
+            and manual testing.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            Users can identify every field, understand what information
+            is expected, detect errors, understand their cause and
+            correct them successfully.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-links">
+      <h2>9. Links, tables and lists</h2>
+
+      <p>
+        Check that common content structures and navigation elements are
+        understandable independently of their visual presentation.
+      </p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Navigate through all links and review their accessible names.
+            Check whether repeated links can be distinguished from one
+            another.
+          </p>
+
+          <p>
+            Inspect lists and tables in web pages, mobile interfaces
+            and documents.
+            For tables, check headers, relationships and reading order.
+            For lists, check that list items are correctly identified.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            The destination or purpose of each link is clear.
+            Link and action labels are meaningful and distinguishable.
+          </p>
+
+          <p>
+            Lists are exposed as lists with the correct items.
+            Tables have meaningful headers and relationships between
+            headers and data can be understood.
+          </p>
+
+          <p>
+            Complex structures do not lose their meaning when read
+            linearly or through assistive technology.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Screen reader,
+            browser accessibility inspector,
+            browser developer tools,
+            document accessibility checker,
+            and document reading-order tools.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            Links, lists and tables remain understandable and usable
+            without relying on visual layout or surrounding visual context.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-dynamic">
+      <h2>10. Dynamic content and media</h2>
+
+      <p>
+        Check that changes, notifications, status messages, animations
+        and multimedia remain accessible and controllable.
+      </p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Trigger notifications, alerts, validation messages, status
+            changes, loading states and other dynamic content updates.
+            Check whether important changes are communicated without
+            unexpectedly moving focus.
+          </p>
+
+          <p>
+            Test videos, audio, carousels, animations and other moving
+            or changing content.
+            Check that users can pause, stop or otherwise control
+            automatically moving or playing content when required.
+          </p>
+
+          <p>
+            Check multimedia alternatives, including captions,
+            transcripts and audio descriptions where applicable.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Important dynamic changes and feedback are perceivable and
+            communicated to assistive technologies.
+            Context changes are understandable.
+          </p>
+
+          <p>
+            Automatically moving, playing or updating content does not
+            prevent users from accessing or controlling information.
+            Multimedia has accessible controls and appropriate alternatives.
+          </p>
+
+          <p>
+            Content does not introduce inaccessible flashing or other
+            harmful or distracting behaviour.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            Screen reader,
+            accessibility inspector,
+            browser developer tools,
+            mobile accessibility tools,
+            document accessibility tools,
+            and manual testing.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            Relevant changes, feedback and multimedia information are
+            available to the user at the appropriate time and can be
+            controlled when necessary.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+
+    <article id="test-assistive">
+      <h2>11. Assistive technology support</h2>
+
+      <p>
+        Check the complete user experience with the assistive technologies
+        relevant to the platform and content type.
+      </p>
+
+      <aside>
+        <section>
+          <h3>Procedure</h3>
+          <p>
+            Perform the main user scenarios from start to finish using
+            appropriate assistive technologies.
+          </p>
+
+          <p>
+            For web content, test with desktop and mobile screen readers.
+            For mobile applications, test the platform screen reader
+            and alternative input methods.
+            For documents, navigate the complete document and verify
+            that its structure and content remain understandable.
+          </p>
+        </section>
+
+        <section>
+          <h3>Verify</h3>
+          <p>
+            Users can identify where they are, understand the available
+            actions, navigate between relevant elements, operate controls,
+            understand changes and complete the main scenarios.
+          </p>
+
+          <p>
+            The interface or document provides clear navigation,
+            meaningful feedback and predictable interaction.
+            No inaccessible custom component, missing information,
+            incorrect reading order or unexpected focus prevents
+            completion of the workflow.
+          </p>
+        </section>
+
+        <section>
+          <h3>Tool</h3>
+          <p>
+            <a href="https://www.nvaccess.org/">NVDA</a>,
+            <a href="https://www.freedomscientific.com/products/software/jaws/">
+              JAWS
+            </a>,
+            <a href="https://support.google.com/accessibility/android/answer/6283677">
+              TalkBack
+            </a>,
+            <a href="https://support.apple.com/fr-fr/guide/iphone/iph732dc028d/ios">
+              VoiceOver
+            </a>,
+            Switch Access,
+            Switch Control,
+            keyboard,
+            and document accessibility tools.
+          </p>
+        </section>
+
+        <section>
+          <h3>Result</h3>
+          <p>
+            The main user scenarios can be completed with the relevant
+            assistive technology without an accessibility blocker.
+          </p>
+        </section>
+      </aside>
+    </article>
+
+  </main>
+
+  <footer>
+    <nav aria-label="Footer navigation">
+      <ul>
+        <li>
+          <a href="#main-content">
+            Back to top
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </footer>
+</body>
+</html>

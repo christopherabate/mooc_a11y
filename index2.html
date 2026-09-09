@@ -1,0 +1,2340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Accessibility MOOC</title>
+
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --text: #17202a;
+      --muted: #5b6573;
+      --border: #c8ced6;
+      --accent: #174ea6;
+      --accent-soft: #e8f0fe;
+      --success: #176b3a;
+      --success-soft: #e8f5ed;
+      --error: #a61b1b;
+      --error-soft: #fdecec;
+      --warning: #795900;
+      --warning-soft: #fff7dc;
+      --focus: #111111;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 1000;
+      padding: .75rem 1rem;
+      background: var(--focus);
+      color: white;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 1rem;
+    }
+
+    header > div,
+    main,
+    footer > div {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      line-height: 1.25;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      padding: 0;
+      margin: 1rem 0 0;
+      list-style: none;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: .5rem .75rem;
+      border: 1px solid var(--border);
+      border-radius: .4rem;
+      background: var(--surface);
+      text-decoration: none;
+    }
+
+    main {
+      padding: 2rem 1rem 4rem;
+    }
+
+    article {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+    }
+
+    .intro {
+      font-size: 1.05rem;
+    }
+
+    .test-status {
+      margin: 1.5rem 0;
+      padding: .75rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: .5rem;
+    }
+
+    .test-status h3 {
+      margin: 0 0 .25rem;
+      font-size: 1rem;
+    }
+
+    .test-status p {
+      margin: 0;
+    }
+
+    .activity {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--accent-soft);
+      border-left: 5px solid var(--accent);
+      border-radius: .5rem;
+    }
+
+    .activity h3 {
+      margin-top: 0;
+    }
+
+    .activity-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      padding: .65rem 1rem;
+      border: 2px solid var(--accent);
+      border-radius: .4rem;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+
+    .btn.secondary {
+      background: white;
+      color: var(--accent);
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: .4rem;
+    }
+
+    .feedback.success {
+      background: var(--success-soft);
+      border: 1px solid var(--success);
+    }
+
+    .feedback.error {
+      background: var(--error-soft);
+      border: 1px solid var(--error);
+    }
+
+    .feedback.warning {
+      background: var(--warning-soft);
+      border: 1px solid var(--warning);
+    }
+
+    .feedback[hidden] {
+      display: none;
+    }
+
+    .choices {
+      display: grid;
+      gap: .75rem;
+      margin: 1rem 0;
+    }
+
+    .choice {
+      display: block;
+      padding: .85rem 1rem;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: .4rem;
+    }
+
+    .choice:hover {
+      border-color: var(--accent);
+    }
+
+    .choice input {
+      margin-right: .5rem;
+    }
+
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .visual-card {
+      min-height: 130px;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: .5rem;
+      background: white;
+    }
+
+    .fake-image {
+      min-height: 75px;
+      display: grid;
+      place-items: center;
+      margin-bottom: .75rem;
+      border: 1px solid var(--border);
+      background: #eee;
+      font-weight: 700;
+    }
+
+    .hotspot-document {
+      position: relative;
+      padding: 1.5rem;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: .5rem;
+    }
+
+    .hotspot {
+      position: absolute;
+      min-width: 2.5rem;
+      min-height: 2.5rem;
+      border: 2px solid var(--error);
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      color: var(--error);
+      font-weight: 700;
+    }
+
+    .hotspot[data-id="title"] {
+      top: 20%;
+      left: 12%;
+    }
+
+    .hotspot[data-id="list"] {
+      top: 48%;
+      left: 16%;
+    }
+
+    .hotspot[data-id="table"] {
+      top: 60%;
+      right: 15%;
+    }
+
+    .hotspot[data-id="language"] {
+      bottom: 8%;
+      left: 20%;
+    }
+
+    .hotspot[data-id="metadata"] {
+      top: 8%;
+      right: 15%;
+    }
+
+    .hotspot[data-id="order"] {
+      top: 35%;
+      right: 15%;
+    }
+
+    .found {
+      background: var(--success-soft);
+      border-color: var(--success);
+    }
+
+    .counter {
+      margin: 1rem 0;
+      padding: .75rem;
+      border: 1px solid var(--border);
+      border-radius: .4rem;
+      background: white;
+      font-weight: 700;
+    }
+
+    .contrast-sample {
+      padding: 1rem;
+      border-radius: .4rem;
+      border: 1px solid var(--border);
+      background: white;
+    }
+
+    .contrast-bad {
+      color: #aaa;
+      background: #fff;
+    }
+
+    .contrast-good {
+      color: #17202a;
+      background: #fff;
+    }
+
+    .resize-demo {
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background: white;
+      border-radius: .5rem;
+    }
+
+    .resize-demo-inner {
+      padding: 1rem;
+      transition: font-size .2s ease;
+    }
+
+    .resize-demo.is-large .resize-demo-inner {
+      font-size: 200%;
+    }
+
+    .reflow-demo {
+      max-width: 100%;
+      padding: 1rem;
+      border: 2px dashed var(--border);
+      background: white;
+      overflow-x: auto;
+    }
+
+    .keyboard-zone {
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: .5rem;
+      background: white;
+    }
+
+    .key {
+      display: inline-block;
+      min-width: 3rem;
+      padding: .4rem .6rem;
+      margin: .2rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: .3rem;
+      background: var(--bg);
+      font-family: monospace;
+    }
+
+    .interactive-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+    }
+
+    .example-card {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: .5rem;
+      background: white;
+    }
+
+    .sr-output {
+      padding: 1rem;
+      background: #111;
+      color: white;
+      border-radius: .4rem;
+      font-family: monospace;
+    }
+
+    .form-demo {
+      display: grid;
+      gap: 1rem;
+      max-width: 600px;
+    }
+
+    .form-demo label {
+      font-weight: 700;
+    }
+
+    .form-demo input,
+    .form-demo select {
+      width: 100%;
+      padding: .7rem;
+      border: 2px solid var(--border);
+      border-radius: .4rem;
+    }
+
+    .error-message {
+      color: var(--error);
+      font-weight: 700;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: .7rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      background: var(--bg);
+    }
+
+    .dynamic-area {
+      min-height: 100px;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: .5rem;
+      background: white;
+    }
+
+    .status-live {
+      margin-top: 1rem;
+      padding: .75rem;
+      border: 1px solid var(--border);
+      border-radius: .4rem;
+    }
+
+    .test-method {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      padding: .6rem .8rem;
+      border: 1px solid var(--border);
+      border-radius: .4rem;
+      background: white;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .progress {
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      padding: .75rem 1rem;
+      background: white;
+      border-top: 1px solid var(--border);
+    }
+
+    .progress-bar {
+      height: .75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-value {
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+      transition: width .2s ease;
+    }
+
+    footer {
+      padding: 2rem 1rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 700px) {
+      article {
+        padding: 1.25rem;
+      }
+
+      nav ul {
+        display: block;
+      }
+
+      nav li {
+        margin-bottom: .4rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header>
+  <div>
+    <h1>Digital Accessibility MOOC</h1>
+
+    <nav id="main-navigation" aria-label="Main navigation">
+      <h2>Accessibility tests</h2>
+      <ul>
+        <li><a href="#test-content">1. Content</a></li>
+        <li><a href="#test-structure">2. Structure</a></li>
+        <li><a href="#test-colour">3. Colour</a></li>
+        <li><a href="#test-resizing">4. Resizing</a></li>
+        <li><a href="#test-navigation">5. Navigation</a></li>
+        <li><a href="#test-interactive">6. Interactive</a></li>
+        <li><a href="#test-names">7. Names</a></li>
+        <li><a href="#test-forms">8. Forms</a></li>
+        <li><a href="#test-links">9. Links</a></li>
+        <li><a href="#test-dynamic">10. Dynamic</a></li>
+        <li><a href="#test-assistive">11. Assistive technology</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- ========================================================= -->
+  <!-- 1. CONTENT                                                -->
+  <!-- ========================================================= -->
+
+  <article id="test-content">
+    <h2>1. Content and alternatives</h2>
+
+    <p class="intro">
+      Accessibility starts with the content itself. Images, icons, audio and
+      video must communicate their meaning in a way that does not depend on
+      a single sensory channel.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: classify the images</h3>
+
+      <p>
+        Four images are shown below. Identify the role of each image.
+      </p>
+
+      <div class="visual-grid">
+
+        <div class="visual-card">
+          <div class="fake-image" aria-hidden="true">LOGO</div>
+          <label>
+            Image 1:
+            <select data-answer="functional">
+              <option value="">Choose...</option>
+              <option value="decorative">Decorative</option>
+              <option value="informative">Informative</option>
+              <option value="functional">Functional</option>
+              <option value="complex">Complex</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="visual-card">
+          <div class="fake-image" aria-hidden="true">🌄</div>
+          <label>
+            Image 2:
+            <select data-answer="informative">
+              <option value="">Choose...</option>
+              <option value="decorative">Decorative</option>
+              <option value="informative">Informative</option>
+              <option value="functional">Functional</option>
+              <option value="complex">Complex</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="visual-card">
+          <div class="fake-image" aria-hidden="true">➜</div>
+          <label>
+            Image 3:
+            <select data-answer="functional">
+              <option value="">Choose...</option>
+              <option value="decorative">Decorative</option>
+              <option value="informative">Informative</option>
+              <option value="functional">Functional</option>
+              <option value="complex">Complex</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="visual-card">
+          <div class="fake-image" aria-hidden="true">CHART</div>
+          <label>
+            Image 4:
+            <select data-answer="complex">
+              <option value="">Choose...</option>
+              <option value="decorative">Decorative</option>
+              <option value="informative">Informative</option>
+              <option value="functional">Functional</option>
+              <option value="complex">Complex</option>
+            </select>
+          </label>
+        </div>
+
+      </div>
+
+      <button class="btn" type="button" onclick="checkSelects(this)">
+        Check my answers
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="activity">
+      <h3>Choose the best alternative text</h3>
+
+      <fieldset>
+        <legend>
+          A photograph shows a red bicycle outside a train station.
+          Which alternative text is the most useful?
+        </legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="alt-text" value="a">
+            image
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="alt-text" value="b">
+            Red bicycle outside the train station
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="alt-text" value="c">
+            A beautiful and very nice bicycle
+          </label>
+        </div>
+      </fieldset>
+
+      <button
+        class="btn"
+        type="button"
+        onclick="checkRadio(this, 'alt-text', 'b')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+
+      <div class="tabs" role="tablist" aria-label="Testing technologies">
+        <button class="tab" role="tab" aria-selected="true"
+                aria-controls="content-tab-keyboard"
+                onclick="showTab(this, 'content-tab-keyboard')">
+          Keyboard
+        </button>
+        <button class="tab" role="tab" aria-selected="false"
+                aria-controls="content-tab-screen-reader"
+                onclick="showTab(this, 'content-tab-screen-reader')">
+          Screen reader
+        </button>
+        <button class="tab" role="tab" aria-selected="false"
+                aria-controls="content-tab-mobile"
+                onclick="showTab(this, 'content-tab-mobile')">
+          Mobile
+        </button>
+      </div>
+
+      <div id="content-tab-keyboard" role="tabpanel">
+        <p>
+          Check that meaningful content remains understandable without relying
+          on visual presentation alone.
+        </p>
+      </div>
+
+      <div id="content-tab-screen-reader" role="tabpanel" hidden>
+        <p>
+          Navigate images and verify that decorative images are ignored and
+          meaningful images expose useful alternative text.
+        </p>
+      </div>
+
+      <div id="content-tab-mobile" role="tabpanel" hidden>
+        <p>
+          Check images, media and controls using the mobile screen reader.
+        </p>
+      </div>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 2. STRUCTURE                                              -->
+  <!-- ========================================================= -->
+
+  <article id="test-structure">
+    <h2>2. Structure, metadata and reading order</h2>
+
+    <p class="intro">
+      Semantic structure helps users understand and navigate a page,
+      particularly when they use assistive technologies.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: find the structural problems</h3>
+
+      <p>
+        This document contains six accessibility problems. Select the areas
+        where you think a problem exists.
+      </p>
+
+      <div class="counter" aria-live="polite">
+        Problems found: <strong id="structure-counter">0</strong> / 6
+      </div>
+
+      <div class="hotspot-document" style="min-height: 420px;">
+        <p><strong>My document</strong></p>
+        <p>
+          This is a document without a meaningful page title. It starts with
+          visual styling rather than a clear semantic hierarchy.
+        </p>
+
+        <ul>
+          <li>First item</li>
+          <li>Second item</li>
+        </ul>
+
+        <div class="table-wrapper">
+          <table>
+            <tr>
+              <td>Product</td>
+              <td>Price</td>
+            </tr>
+            <tr>
+              <td>Book</td>
+              <td>20 €</td>
+            </tr>
+          </table>
+        </div>
+
+        <p>
+          Bonjour. This sentence suddenly contains
+          <span lang="fr">un texte en français</span>.
+        </p>
+
+        <button class="hotspot" type="button" data-id="title"
+                aria-label="Possible problem: document title"
+                onclick="findStructureIssue(this)">
+          1
+        </button>
+
+        <button class="hotspot" type="button" data-id="list"
+                aria-label="Possible problem: list structure"
+                onclick="findStructureIssue(this)">
+          2
+        </button>
+
+        <button class="hotspot" type="button" data-id="table"
+                aria-label="Possible problem: table headers"
+                onclick="findStructureIssue(this)">
+          3
+        </button>
+
+        <button class="hotspot" type="button" data-id="language"
+                aria-label="Possible problem: language change"
+                onclick="findStructureIssue(this)">
+          4
+        </button>
+
+        <button class="hotspot" type="button" data-id="metadata"
+                aria-label="Possible problem: metadata"
+                onclick="findStructureIssue(this)">
+          5
+        </button>
+
+        <button class="hotspot" type="button" data-id="order"
+                aria-label="Possible problem: reading order"
+                onclick="findStructureIssue(this)">
+          6
+        </button>
+      </div>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+
+      <button class="btn secondary" type="button"
+              onclick="revealStructure(this)">
+        Show the explanation
+      </button>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+
+      <div class="tabs" role="tablist" aria-label="Testing technologies">
+        <button class="tab" role="tab" aria-selected="true"
+                aria-controls="structure-tab-browser"
+                onclick="showTab(this, 'structure-tab-browser')">
+          Browser
+        </button>
+        <button class="tab" role="tab" aria-selected="false"
+                aria-controls="structure-tab-screen-reader"
+                onclick="showTab(this, 'structure-tab-screen-reader')">
+          Screen reader
+        </button>
+      </div>
+
+      <div id="structure-tab-browser" role="tabpanel">
+        <p>
+          Inspect the page title, headings, language declarations, lists and
+          tables. Do not rely only on visual appearance.
+        </p>
+      </div>
+
+      <div id="structure-tab-screen-reader" role="tabpanel" hidden>
+        <p>
+          Navigate by headings, landmarks, lists and tables. Check whether
+          the reading order makes sense when content is linearised.
+        </p>
+      </div>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 3. COLOUR                                                 -->
+  <!-- ========================================================= -->
+
+  <article id="test-colour">
+    <h2>3. Colour and contrast</h2>
+
+    <p class="intro">
+      Colour and contrast affect the ability to perceive text, controls and
+      information.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: which text is difficult to read?</h3>
+
+      <p>
+        Look at the examples and identify the text that does not provide
+        sufficient contrast.
+      </p>
+
+      <div class="visual-grid">
+        <div class="contrast-sample contrast-good">
+          Normal text on a white background
+        </div>
+
+        <div class="contrast-sample contrast-good">
+          Another readable example
+        </div>
+
+        <div class="contrast-sample contrast-bad">
+          This text has very low contrast
+        </div>
+
+        <div class="contrast-sample contrast-good">
+          High contrast example
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>Which example has insufficient contrast?</legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="contrast" value="1">
+            Example 1
+          </label>
+          <label class="choice">
+            <input type="radio" name="contrast" value="2">
+            Example 2
+          </label>
+          <label class="choice">
+            <input type="radio" name="contrast" value="3">
+            Example 3
+          </label>
+          <label class="choice">
+            <input type="radio" name="contrast" value="4">
+            Example 4
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button"
+              onclick="checkRadio(this, 'contrast', '3')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="activity">
+      <h3>Bonus: accessibility information cannot rely on colour alone</h3>
+
+      <p>
+        A form marks invalid fields only by turning their border red.
+        What is missing?
+      </p>
+
+      <fieldset>
+        <legend>Choose the best answer</legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="colour-info" value="a">
+            Nothing. Red is enough.
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="colour-info" value="b">
+            A non-colour indication such as an error message or icon with
+            an appropriate accessible name.
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button"
+              onclick="checkRadio(this, 'colour-info', 'b')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+
+      <p>
+        Test text and meaningful graphical elements with a contrast analyser.
+        Then perform a visual inspection to ensure that information is not
+        conveyed by colour alone.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 4. RESIZING                                               -->
+  <!-- ========================================================= -->
+
+  <article id="test-resizing">
+    <h2>4. Text resizing, reflow and orientation</h2>
+
+    <p class="intro">
+      Users may need to enlarge text or use a narrow viewport. Increasing
+      text size should not make content unusable.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: make the text bigger</h3>
+
+      <p>
+        Imagine that you need larger text. Use the control to increase the
+        text size.
+      </p>
+
+      <label for="text-size">
+        Text size:
+        <input id="text-size" type="range" min="100" max="200" value="100"
+               step="10">
+        <output id="text-size-output" for="text-size">100%</output>
+      </label>
+
+      <div class="resize-demo" id="resize-demo">
+        <div class="resize-demo-inner">
+          <h4>Important information</h4>
+          <p>
+            The content should remain readable and usable when text is
+            enlarged. Users should not lose information because text overlaps,
+            is clipped or becomes impossible to operate.
+          </p>
+        </div>
+      </div>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: can the content reflow?</h3>
+
+      <p>
+        Reduce the available width. Look for horizontal scrolling, clipped
+        content or controls that become unusable.
+      </p>
+
+      <div class="reflow-demo">
+        <p>
+          Narrow content should reflow into the available space rather than
+          requiring unnecessary two-dimensional scrolling.
+        </p>
+
+        <div style="min-width: 320px;">
+          <strong>Responsive content area</strong>
+          <p>
+            This area is intentionally wide enough to let you observe what
+            happens when the available space becomes narrow.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        <strong>Remember:</strong> 200% text resizing and narrow reflow are
+        related but distinct checks. For web content, test reflow at
+        approximately 320 CSS pixels of available width, corresponding to the
+        narrow reflow condition required by the applicable WCAG criterion.
+      </p>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+      <p>
+        Test text resizing, browser zoom, narrow reflow and supported
+        orientations. Check that content remains available and operable.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 5. NAVIGATION                                             -->
+  <!-- ========================================================= -->
+
+  <article id="test-navigation">
+    <h2>5. Keyboard and sequential navigation</h2>
+
+    <p class="intro">
+      A user must be able to navigate and operate the interface without a
+      mouse.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: your mouse has no battery</h3>
+
+      <p>
+        Use only your keyboard to reach and activate the button below.
+        Try <span class="key">Tab</span>,
+        <span class="key">Shift</span> + <span class="key">Tab</span>,
+        <span class="key">Enter</span> and
+        <span class="key">Space</span>.
+      </p>
+
+      <div class="keyboard-zone">
+        <p>
+          <button class="btn secondary" type="button">
+            Start
+          </button>
+        </p>
+
+        <p>
+          <a href="#keyboard-result">Read the instructions</a>
+        </p>
+
+        <p>
+          <button class="btn" type="button"
+                  onclick="document.getElementById('keyboard-result').textContent =
+                  'Success! You activated the button using the keyboard.'">
+            Continue
+          </button>
+        </p>
+      </div>
+
+      <p id="keyboard-result" class="status-live" aria-live="polite">
+        Waiting for keyboard activation.
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Find the keyboard trap</h3>
+
+      <p>
+        Imagine that focus enters a component and cannot leave it with the
+        keyboard. What kind of problem is this?
+      </p>
+
+      <fieldset>
+        <legend>Choose the best answer</legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="keyboard-trap" value="a">
+            A contrast problem
+          </label>
+          <label class="choice">
+            <input type="radio" name="keyboard-trap" value="b">
+            A keyboard accessibility problem
+          </label>
+          <label class="choice">
+            <input type="radio" name="keyboard-trap" value="c">
+            An image alternative problem
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button"
+              onclick="checkRadio(this, 'keyboard-trap', 'b')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+      <p>
+        Put the mouse aside. Navigate through the complete interface using
+        Tab and Shift+Tab, and activate controls with the appropriate
+        keyboard commands. Verify that focus is visible, logical and never
+        trapped.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 6. INTERACTIVE                                           -->
+  <!-- ========================================================= -->
+
+  <article id="test-interactive">
+    <h2>6. Interactive elements and touch targets</h2>
+
+    <p class="intro">
+      Links and buttons have different purposes. Controls must also be
+      discoverable and operable on touch devices.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: link or button?</h3>
+
+      <div class="interactive-examples">
+
+        <div class="example-card">
+          <p>Go to the homepage</p>
+          <fieldset>
+            <legend>Which control?</legend>
+            <label class="choice">
+              <input type="radio" name="control-1" value="link">
+              Link
+            </label>
+            <label class="choice">
+              <input type="radio" name="control-1" value="button">
+              Button
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="example-card">
+          <p>Submit this form</p>
+          <fieldset>
+            <legend>Which control?</legend>
+            <label class="choice">
+              <input type="radio" name="control-2" value="link">
+              Link
+            </label>
+            <label class="choice">
+              <input type="radio" name="control-2" value="button">
+              Button
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="example-card">
+          <p>Open the navigation menu</p>
+          <fieldset>
+            <legend>Which control?</legend>
+            <label class="choice">
+              <input type="radio" name="control-3" value="link">
+              Link
+            </label>
+            <label class="choice">
+              <input type="radio" name="control-3" value="button">
+              Button
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="example-card">
+          <p>Download a PDF</p>
+          <fieldset>
+            <legend>Which control?</legend>
+            <label class="choice">
+              <input type="radio" name="control-4" value="link">
+              Link
+            </label>
+            <label class="choice">
+              <input type="radio" name="control-4" value="button">
+              Button
+            </label>
+          </fieldset>
+        </div>
+
+      </div>
+
+      <button class="btn" type="button" onclick="checkControlQuiz(this)">
+        Check my answers
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+      <p>
+        Check that links navigate to another resource or location, while
+        buttons perform an action. Test controls with keyboard and touch.
+        Also verify that touch targets are sufficiently large and separated
+        according to the applicable platform or accessibility requirements.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 7. NAMES                                                  -->
+  <!-- ========================================================= -->
+
+  <article id="test-names">
+    <h2>7. Accessible names, roles and states</h2>
+
+    <p class="intro">
+      A control can look obvious visually but still be meaningless to a
+      screen reader if its accessible name, role or state is missing.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: what does the screen reader hear?</h3>
+
+      <p>
+        Imagine a search icon used as a button. What should the accessible
+        name communicate?
+      </p>
+
+      <div class="visual-card">
+        <button class="btn secondary" type="button" aria-label="Search">
+          🔍
+        </button>
+      </div>
+
+      <fieldset>
+        <legend>Choose the best accessible description</legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="accessible-name" value="a">
+            Icon
+          </label>
+          <label class="choice">
+            <input type="radio" name="accessible-name" value="b">
+            Button
+          </label>
+          <label class="choice">
+            <input type="radio" name="accessible-name" value="c">
+            Search button
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button"
+              onclick="checkRadio(this, 'accessible-name', 'c')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="activity">
+      <h3>What is the current state?</h3>
+
+      <button id="accordion-button"
+              class="btn secondary"
+              type="button"
+              aria-expanded="false"
+              aria-controls="accordion-panel"
+              onclick="toggleAccordion(this)">
+        More information
+      </button>
+
+      <div id="accordion-panel" hidden>
+        <p>
+          This content is currently visible because the button has been
+          activated.
+        </p>
+      </div>
+
+      <p>
+        The state of the control must be exposed programmatically:
+        <code>aria-expanded="false"</code> when collapsed and
+        <code>aria-expanded="true"</code> when expanded.
+      </p>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+      <p>
+        Inspect controls with a screen reader or accessibility tree. Check
+        their accessible name, role, value and state. Interact with controls
+        and verify that state changes are announced or exposed correctly.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 8. FORMS                                                  -->
+  <!-- ========================================================= -->
+
+  <article id="test-forms">
+    <h2>8. Forms and error handling</h2>
+
+    <p class="intro">
+      Forms should provide clear labels, instructions, error identification
+      and useful recovery mechanisms.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: complete the form</h3>
+
+      <p>
+        Complete the form and try to continue. Observe how the errors are
+        presented.
+      </p>
+
+      <form class="form-demo" id="demo-form" novalidate>
+        <div>
+          <label for="demo-name">Name</label>
+          <input id="demo-name" name="name" type="text" required>
+        </div>
+
+        <div>
+          <label for="demo-email">Email</label>
+          <input id="demo-email" name="email" type="email" required>
+        </div>
+
+        <div>
+          <label for="demo-country">Country</label>
+          <select id="demo-country" name="country" required>
+            <option value="">Choose...</option>
+            <option>France</option>
+            <option>Germany</option>
+            <option>Spain</option>
+          </select>
+        </div>
+
+        <button class="btn" type="submit">Continue</button>
+
+        <div id="form-errors" class="feedback error"
+             role="alert" hidden></div>
+      </form>
+    </section>
+
+    <section class="activity">
+      <h3>Identify the error-handling problems</h3>
+
+      <fieldset>
+        <legend>
+          Which practices make form errors accessible?
+        </legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="checkbox" name="form-good" value="labels">
+            Associate each field with a clear label
+          </label>
+
+          <label class="choice">
+            <input type="checkbox" name="form-good" value="message">
+            Explain the error in text
+          </label>
+
+          <label class="choice">
+            <input type="checkbox" name="form-good" value="focus">
+            Help the user locate the problematic field
+          </label>
+
+          <label class="choice">
+            <input type="checkbox" name="form-good" value="colour">
+            Use colour alone to identify the error
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button" onclick="checkFormQuiz(this)">
+        Check my answers
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+      <p>
+        Submit empty and invalid forms. Check labels, instructions, error
+        identification, error messages, focus management and whether users
+        can understand how to correct the problem.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 9. LINKS, TABLES AND LISTS                                -->
+  <!-- ========================================================= -->
+
+  <article id="test-links">
+    <h2>9. Links, tables and lists</h2>
+
+    <p class="intro">
+      Structural relationships should remain understandable when visual
+      formatting is removed.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: can you understand this table?</h3>
+
+      <p>
+        Without relying on colour or position alone, identify what the value
+        "20" represents.
+      </p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Product prices</caption>
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Availability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Book</th>
+              <td>20 €</td>
+              <td>Available</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <fieldset>
+        <legend>What does "20 €" represent?</legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="table-answer" value="a">
+            The product name
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="table-answer" value="b">
+            The price of the book
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="table-answer" value="c">
+            The availability
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button"
+              onclick="checkRadio(this, 'table-answer', 'b')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: link text</h3>
+
+      <p>
+        Which link is easier to understand when encountered out of context?
+      </p>
+
+      <div class="choices">
+        <label class="choice">
+          <input type="radio" name="link-text" value="a">
+          Click here
+        </label>
+
+        <label class="choice">
+          <input type="radio" name="link-text" value="b">
+          Download the accessibility report
+        </label>
+      </div>
+
+      <button class="btn" type="button"
+              onclick="checkRadio(this, 'link-text', 'b')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+      <p>
+        Navigate links using a screen reader's links list. Check whether link
+        text is meaningful. Inspect lists and tables to verify that semantic
+        relationships are correctly exposed.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 10. DYNAMIC CONTENT                                       -->
+  <!-- ========================================================= -->
+
+  <article id="test-dynamic">
+    <h2>10. Dynamic content and media</h2>
+
+    <p class="intro">
+      Content that changes dynamically must remain perceivable and
+      understandable to people who cannot see the visual change.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Interactive test: something just changed</h3>
+
+      <p>
+        Activate the button and imagine that the visual status changes
+        without moving focus.
+      </p>
+
+      <button class="btn" type="button"
+              onclick="updateDynamicStatus()">
+        Save changes
+      </button>
+
+      <div class="dynamic-area">
+        <p id="dynamic-status">
+          No changes have been saved yet.
+        </p>
+      </div>
+
+      <p>
+        A status update can be exposed with an appropriate live region when
+        users need to be informed without moving focus.
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Carousel challenge</h3>
+
+      <p>
+        A carousel automatically changes every few seconds. Which feature
+        helps users control it?
+      </p>
+
+      <fieldset>
+        <legend>Choose the best answer</legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="carousel" value="a">
+            It should always change automatically.
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="carousel" value="b">
+            Users should have an accessible way to pause or stop it.
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="carousel" value="c">
+            Only animation speed matters.
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button"
+              onclick="checkRadio(this, 'carousel', 'b')">
+        Check my answer
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+      <p>
+        Trigger dynamic updates, loading states, validation messages and
+        notifications. Verify that important changes are exposed to assistive
+        technologies when necessary. For moving content, verify that users
+        have appropriate control and that no accessibility hazards are
+        introduced.
+      </p>
+    </div>
+  </article>
+
+
+  <!-- ========================================================= -->
+  <!-- 11. ASSISTIVE TECHNOLOGY                                  -->
+  <!-- ========================================================= -->
+
+  <article id="test-assistive">
+    <h2>11. Assistive technology support</h2>
+
+    <p class="intro">
+      The final test is not a single technical check. It is a complete user
+      journey using the assistive technologies relevant to the product.
+    </p>
+
+    <section class="test-status" aria-label="Test status">
+      <h3>Status</h3>
+      <p>
+        <span aria-hidden="true">○</span>
+        <span>Not tested</span>
+      </p>
+    </section>
+
+    <section class="activity">
+      <h3>Final challenge: test the user journey</h3>
+
+      <p>
+        Choose a testing method and identify what you would test from start
+        to finish.
+      </p>
+
+      <fieldset>
+        <legend>Choose your testing approach</legend>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="assistive-tech" value="keyboard">
+            Keyboard-only testing
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="assistive-tech" value="desktop">
+            Desktop screen reader
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="assistive-tech" value="mobile">
+            Mobile screen reader
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="assistive-tech" value="switch">
+            Switch or alternative input
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="btn" type="button"
+              onclick="checkAssistiveTech(this)">
+        Start the final test
+      </button>
+
+      <div class="feedback" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="activity">
+      <h3>Final accessibility report</h3>
+
+      <p>
+        For each test, choose the result that best represents your findings.
+      </p>
+
+      <div class="form-demo">
+
+        <label for="final-content">Content</label>
+        <select id="final-content">
+          <option>Not tested</option>
+          <option>Passed</option>
+          <option>Failed</option>
+          <option>Not applicable</option>
+        </select>
+
+        <label for="final-structure">Structure</label>
+        <select id="final-structure">
+          <option>Not tested</option>
+          <option>Passed</option>
+          <option>Failed</option>
+          <option>Not applicable</option>
+        </select>
+
+        <label for="final-keyboard">Keyboard</label>
+        <select id="final-keyboard">
+          <option>Not tested</option>
+          <option>Passed</option>
+          <option>Failed</option>
+          <option>Not applicable</option>
+        </select>
+
+        <label for="final-forms">Forms</label>
+        <select id="final-forms">
+          <option>Not tested</option>
+          <option>Passed</option>
+          <option>Failed</option>
+          <option>Not applicable</option>
+        </select>
+
+        <button class="btn" type="button" onclick="generateReport()">
+          Generate report
+        </button>
+
+        <div id="final-report" class="feedback" hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <div class="test-method">
+      <h3>How to test effectively</h3>
+
+      <p>
+        Combine automated checks with manual testing and assistive technology
+        testing. Select representative user journeys and test the tasks users
+        actually need to complete.
+      </p>
+
+      <h4>Typical tools</h4>
+      <ul>
+        <li>
+          <strong>NVDA</strong> or <strong>JAWS</strong> on desktop
+        </li>
+        <li>
+          <strong>VoiceOver</strong> on Apple devices
+        </li>
+        <li>
+          <strong>TalkBack</strong> on Android devices
+        </li>
+        <li>
+          Browser developer tools and accessibility trees
+        </li>
+        <li>
+          Colour contrast analysers and other supporting tools
+        </li>
+      </ul>
+    </div>
+  </article>
+
+</main>
+
+<footer>
+  <div>
+    <nav aria-label="Footer navigation">
+      <a href="#main-content">Back to top</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="progress" aria-label="Course progress">
+  <div>
+    <strong>
+      Course progress:
+      <span id="progress-text">0%</span>
+    </strong>
+  </div>
+  <div class="progress-bar"
+       role="progressbar"
+       aria-valuemin="0"
+       aria-valuemax="100"
+       aria-valuenow="0"
+       aria-label="Course progress">
+    <div id="progress-value" class="progress-value"></div>
+  </div>
+</div>
+
+<script>
+  /* =========================================================
+     Generic quiz helpers
+     ========================================================= */
+
+  function showFeedback(button, message, type) {
+    const activity = button.closest(".activity");
+    const feedback = activity.querySelector(".feedback");
+
+    feedback.className = "feedback " + type;
+    feedback.hidden = false;
+    feedback.innerHTML = message;
+  }
+
+  function checkRadio(button, name, correctValue) {
+    const selected = document.querySelector(
+      'input[name="' + name + '"]:checked'
+    );
+
+    if (!selected) {
+      showFeedback(
+        button,
+        "<strong>Please choose an answer.</strong>",
+        "warning"
+      );
+      return;
+    }
+
+    if (selected.value === correctValue) {
+      showFeedback(
+        button,
+        "<strong>Correct!</strong> You have identified the accessibility issue.",
+        "success"
+      );
+      updateProgress();
+    } else {
+      showFeedback(
+        button,
+        "<strong>Not quite.</strong> Try again and think about what a user needs to understand or operate the content.",
+        "error"
+      );
+    }
+  }
+
+
+  function checkSelects(button) {
+    const activity = button.closest(".activity");
+    const selects = activity.querySelectorAll("select[data-answer]");
+    let correct = 0;
+
+    selects.forEach(select => {
+      if (select.value === select.dataset.answer) {
+        correct++;
+      }
+    });
+
+    if (correct === selects.length) {
+      showFeedback(
+        button,
+        "<strong>Excellent!</strong> You correctly classified all four images. The role of an image determines the appropriate alternative.",
+        "success"
+      );
+      updateProgress();
+    } else {
+      showFeedback(
+        button,
+        "<strong>" + correct + " / " + selects.length + " correct.</strong> Think about whether the image decorates, communicates information, performs an action or contains complex information.",
+        "error"
+      );
+    }
+  }
+
+
+  /* =========================================================
+     Tabs
+     ========================================================= */
+
+  function showTab(button, panelId) {
+    const tablist = button.closest('[role="tablist"]');
+    const tabs = tablist.querySelectorAll('[role="tab"]');
+
+    tabs.forEach(tab => {
+      const selected = tab === button;
+      tab.setAttribute("aria-selected", selected ? "true" : "false");
+
+      const panel = document.getElementById(
+        tab.getAttribute("aria-controls")
+      );
+
+      if (panel) {
+        panel.hidden = !selected;
+      }
+    });
+
+    document.getElementById(panelId).hidden = false;
+  }
+
+
+  /* =========================================================
+     Structure hotspot game
+     ========================================================= */
+
+  let structureFound = new Set();
+
+  function findStructureIssue(button) {
+    const id = button.dataset.id;
+
+    if (!structureFound.has(id)) {
+      structureFound.add(id);
+      button.classList.add("found");
+
+      const counter = document.getElementById("structure-counter");
+      counter.textContent = structureFound.size;
+
+      if (structureFound.size === 6) {
+        const feedback = button.closest(".activity")
+          .querySelector(".feedback");
+
+        feedback.className = "feedback success";
+        feedback.hidden = false;
+        feedback.innerHTML =
+          "<strong>Excellent!</strong> You found all six problems. " +
+          "The game illustrates why structure must be checked beyond visual appearance.";
+
+        updateProgress();
+      }
+    }
+  }
+
+
+  function revealStructure(button) {
+    const feedback = button.closest(".activity")
+      .querySelector(".feedback");
+
+    feedback.className = "feedback warning";
+    feedback.hidden = false;
+
+    feedback.innerHTML =
+      "<strong>What should you investigate?</strong>" +
+      "<ul>" +
+      "<li>Document title and metadata</li>" +
+      "<li>Heading hierarchy and reading order</li>" +
+      "<li>List semantics</li>" +
+      "<li>Table headers and relationships</li>" +
+      "<li>Language changes</li>" +
+      "</ul>";
+  }
+
+
+  /* =========================================================
+     Resizing
+     ========================================================= */
+
+  const textSize = document.getElementById("text-size");
+  const textSizeOutput = document.getElementById("text-size-output");
+  const resizeDemo = document.getElementById("resize-demo");
+
+  textSize.addEventListener("input", function () {
+    textSizeOutput.value = this.value + "%";
+    textSizeOutput.textContent = this.value + "%";
+
+    resizeDemo.classList.toggle(
+      "is-large",
+      Number(this.value) >= 180
+    );
+  });
+
+
+  /* =========================================================
+     Link / button quiz
+     ========================================================= */
+
+  function checkControlQuiz(button) {
+    const answers = {
+      "control-1": "link",
+      "control-2": "button",
+      "control-3": "button",
+      "control-4": "link"
+    };
+
+    let correct = 0;
+
+    Object.entries(answers).forEach(([name, answer]) => {
+      const selected = document.querySelector(
+        'input[name="' + name + '"]:checked'
+      );
+
+      if (selected && selected.value === answer) {
+        correct++;
+      }
+    });
+
+    if (correct === 4) {
+      showFeedback(
+        button,
+        "<strong>Perfect!</strong> Use a link for navigation and a button for an action.",
+        "success"
+      );
+      updateProgress();
+    } else {
+      showFeedback(
+        button,
+        "<strong>" + correct + " / 4 correct.</strong> Ask yourself: does this control take the user somewhere, or does it perform an action?",
+        "error"
+      );
+    }
+  }
+
+
+  /* =========================================================
+     Accessible name / accordion
+     ========================================================= */
+
+  function toggleAccordion(button) {
+    const panel = document.getElementById(
+      button.getAttribute("aria-controls")
+    );
+
+    const expanded = button.getAttribute("aria-expanded") === "true";
+
+    button.setAttribute(
+      "aria-expanded",
+      expanded ? "false" : "true"
+    );
+
+    panel.hidden = expanded;
+  }
+
+
+  /* =========================================================
+     Forms
+     ========================================================= */
+
+  document.getElementById("demo-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("demo-name");
+    const email = document.getElementById("demo-email");
+    const country = document.getElementById("demo-country");
+    const errors = [];
+
+    [name, email, country].forEach(field => {
+      field.removeAttribute("aria-invalid");
+    });
+
+    if (!name.value.trim()) {
+      errors.push("Name is required.");
+      name.setAttribute("aria-invalid", "true");
+    }
+
+    if (!email.value.trim() || !email.validity.valid) {
+      errors.push("Please enter a valid email address.");
+      email.setAttribute("aria-invalid", "true");
+    }
+
+    if (!country.value) {
+      errors.push("Please select a country.");
+      country.setAttribute("aria-invalid", "true");
+    }
+
+    const errorBox = document.getElementById("form-errors");
+
+    if (errors.length) {
+      errorBox.hidden = false;
+      errorBox.innerHTML =
+        "<strong>Please correct the following:</strong>" +
+        "<ul>" +
+        errors.map(error => "<li>" + error + "</li>").join("") +
+        "</ul>";
+
+      const firstInvalid = document.querySelector(
+        '[aria-invalid="true"]'
+      );
+
+      if (firstInvalid) {
+        firstInvalid.focus();
+      }
+    } else {
+      errorBox.hidden = false;
+      errorBox.className = "feedback success";
+      errorBox.innerHTML =
+        "<strong>Form completed successfully.</strong>";
+    }
+  });
+
+
+  function checkFormQuiz(button) {
+    const selected = document.querySelectorAll(
+      'input[name="form-good"]:checked'
+    );
+
+    const values = Array.from(selected).map(input => input.value);
+
+    const correct =
+      values.includes("labels") &&
+      values.includes("message") &&
+      values.includes("focus") &&
+      !values.includes("colour");
+
+    if (correct) {
+      showFeedback(
+        button,
+        "<strong>Correct!</strong> Accessible error handling combines clear labels, meaningful messages and appropriate focus or navigation support. Colour alone is not sufficient.",
+        "success"
+      );
+      updateProgress();
+    } else {
+      showFeedback(
+        button,
+        "<strong>Not quite.</strong> Select the practices that give users information they can understand and act upon.",
+        "error"
+      );
+    }
+  }
+
+
+  /* =========================================================
+     Dynamic content
+     ========================================================= */
+
+  function updateDynamicStatus() {
+    const status = document.getElementById("dynamic-status");
+
+    status.textContent =
+      "Changes saved successfully.";
+
+    status.setAttribute("role", "status");
+
+    updateProgress();
+  }
+
+
+  /* =========================================================
+     Assistive technology
+     ========================================================= */
+
+  function checkAssistiveTech(button) {
+    const selected = document.querySelector(
+      'input[name="assistive-tech"]:checked'
+    );
+
+    if (!selected) {
+      showFeedback(
+        button,
+        "<strong>Choose a testing approach first.</strong>",
+        "warning"
+      );
+      return;
+    }
+
+    showFeedback(
+      button,
+      "<strong>Good choice.</strong> Now follow a complete user journey: " +
+      "navigate, locate content, operate controls, complete the task and recover from errors.",
+      "success"
+    );
+
+    updateProgress();
+  }
+
+
+  function generateReport() {
+    const fields = [
+      document.getElementById("final-content"),
+      document.getElementById("final-structure"),
+      document.getElementById("final-keyboard"),
+      document.getElementById("final-forms")
+    ];
+
+    const failed = fields.filter(
+      field => field.value === "Failed"
+    ).length;
+
+    const notTested = fields.filter(
+      field => field.value === "Not tested"
+    ).length;
+
+    const report = document.getElementById("final-report");
+
+    report.hidden = false;
+
+    if (notTested > 0) {
+      report.className = "feedback warning";
+      report.innerHTML =
+        "<strong>Testing incomplete.</strong> " +
+        notTested +
+        " area(s) have not been tested yet.";
+      return;
+    }
+
+    if (failed > 0) {
+      report.className = "feedback error";
+      report.innerHTML =
+        "<strong>Accessibility issues identified.</strong> " +
+        failed +
+        " area(s) failed the test. Document the issues, their impact and the recommended remediation.";
+    } else {
+      report.className = "feedback success";
+      report.innerHTML =
+        "<strong>Report complete.</strong> No failure was recorded in these four areas. Remember that a complete accessibility assessment requires appropriate manual and assistive technology testing.";
+    }
+
+    updateProgress();
+  }
+
+
+  /* =========================================================
+     Course progress
+     ========================================================= */
+
+  const completedActivities = new Set();
+
+  function updateProgress() {
+    const sections = document.querySelectorAll("article");
+    let completed = 0;
+
+    sections.forEach(article => {
+      const success = article.querySelector(".feedback.success");
+
+      if (success) {
+        completed++;
+      }
+    });
+
+    const percentage = Math.round(
+      (completed / sections.length) * 100
+    );
+
+    document.getElementById("progress-text").textContent =
+      percentage + "%";
+
+    document.getElementById("progress-value").style.width =
+      percentage + "%";
+
+    document.querySelector(".progress-bar")
+      .setAttribute("aria-valuenow", percentage);
+  }
+</script>
+
+</body>
+</html>
