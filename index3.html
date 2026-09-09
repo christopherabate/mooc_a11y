@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tester les principaux critères de l’accessibilité numérique</title>
+
+  <style>
+    :root {
+      --color-primary: #0645ad;
+      --color-primary-dark: #032e78;
+      --color-text: #1d1d1d;
+      --color-muted: #5b5b5b;
+      --color-background: #ffffff;
+      --color-background-alt: #f2f5f9;
+      --color-border: #767676;
+      --color-success: #176b36;
+      --color-error: #a12622;
+      --color-focus: #ffbf00;
+      --radius: 0.5rem;
+      --spacing: 1rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--color-text);
+      background: var(--color-background);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--color-primary-dark);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 4px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+
+    .page-header {
+      padding: 2rem 1rem;
+      background: var(--color-primary-dark);
+      color: white;
+    }
+
+    .page-header__inner,
+    main {
+      width: min(1100px, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .page-header h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.2;
+    }
+
+    .progress-wrapper {
+      margin-top: 1.5rem;
+    }
+
+    progress {
+      width: 100%;
+      height: 1.2rem;
+    }
+
+    .progress-label {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+    }
+
+    main {
+      padding-block: 2rem 4rem;
+    }
+
+    .module {
+      margin-bottom: 3rem;
+      padding: clamp(1rem, 3vw, 2rem);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-background);
+      box-shadow: 0 0.25rem 1rem rgb(0 0 0 / 8%);
+      scroll-margin-top: 1rem;
+    }
+
+    .module h2 {
+      margin-top: 0;
+      color: var(--color-primary-dark);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+    }
+
+    .module h3 {
+      margin-top: 2rem;
+      color: var(--color-primary-dark);
+    }
+
+    .objective {
+      padding: 1rem;
+      border-left: 0.35rem solid var(--color-primary);
+      background: var(--color-background-alt);
+    }
+
+    .rules {
+      padding-left: 1.4rem;
+    }
+
+    .activity {
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius);
+      background: #f8fbff;
+    }
+
+    .activity legend {
+      padding-inline: 0.4rem;
+      font-weight: 700;
+    }
+
+    .options {
+      display: grid;
+      gap: 0.75rem;
+      margin-block: 1rem;
+    }
+
+    .option {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 0.8rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: white;
+    }
+
+    .option input {
+      flex: 0 0 auto;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.2rem;
+    }
+
+    .option--visual {
+      min-height: 4rem;
+      align-items: center;
+    }
+
+    .contrast-demo {
+      display: inline-block;
+      padding: 0.8rem 1rem;
+      border-radius: 0.25rem;
+      font-weight: 700;
+    }
+
+    .contrast-a {
+      color: #aaa;
+      background: #fff;
+    }
+
+    .contrast-b {
+      color: #000;
+      background: #fff;
+    }
+
+    .contrast-c {
+      color: #71b7ee;
+      background: #fff;
+    }
+
+    .contrast-d {
+      color: #4a4a4a;
+      background: #ddd;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+    }
+
+    .feedback--success {
+      color: var(--color-success);
+      border: 2px solid var(--color-success);
+      background: #edf8f0;
+    }
+
+    .feedback--error {
+      color: var(--color-error);
+      border: 2px solid var(--color-error);
+      background: #fff0ef;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    details {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-background-alt);
+    }
+
+    details summary {
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    details ul {
+      margin-top: 0;
+      padding: 0 1.8rem 1rem;
+    }
+
+    code,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 1rem;
+      background: #1f2937;
+      color: #f9fafb;
+      border-radius: var(--radius);
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .status-list {
+      display: grid;
+      gap: 0.5rem;
+      padding-left: 1.3rem;
+    }
+
+    @media (max-width: 600px) {
+      .page-header,
+      main {
+        padding-inline: 1rem;
+      }
+
+      .module {
+        padding: 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="page-header">
+    <div class="page-header__inner">
+      <h1>Identifier et tester les principaux critères de l’accessibilité numérique</h1>
+
+      <div class="progress-wrapper">
+        <label for="progress">Progression</label>
+        <progress id="progress" value="0" max="11"></progress>
+        <span id="progress-label" class="progress-label">
+          0 module validé sur 11
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main id="modules">
+
+    <!-- MODULE 1 -->
+    <section class="module" id="module-1">
+      <h2>Module 1 — Structure et organisation</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier qu’un contenu possède une structure compréhensible,
+        quel que soit le support utilisé.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Les titres suivent une hiérarchie logique.</li>
+        <li>Les listes utilisent une véritable structure de liste.</li>
+        <li>L’ordre de lecture est cohérent.</li>
+        <li>Les tableaux sont réservés aux données tabulaires.</li>
+        <li>La compréhension ne dépend pas uniquement de la mise en forme visuelle.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Repérez les problèmes de structure</h3>
+
+        <pre><code>Nos formations
+
+Introduction
+
+- Formation accessibilité
+- Formation écoconception
+- Formation UX
+
+3. Public concerné
+
+Cette formation s'adresse aux designers.
+
+Conclusion
+
+Accessibilité numérique</code></pre>
+
+        <fieldset>
+          <legend>
+            Sélectionnez les problèmes présents dans cet extrait.
+          </legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="checkbox" name="q1" value="0">
+              <span>La liste est fabriquée avec des tirets.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q1" value="1">
+              <span>La hiérarchie des titres n’est pas clairement structurée.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q1" value="2">
+              <span>Le contenu est nécessairement trop court.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q1" value="3">
+              <span>L’ordre des sections peut être incohérent.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q1" data-correct="0,1,3">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q1" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Utiliser HeadingsMap, axe DevTools ou un outil équivalent.</li>
+            <li>Vérifier la présence d’un titre principal.</li>
+            <li>Contrôler l’ordre des niveaux de titres.</li>
+            <li>Inspecter les éléments HTML <code>h1</code> à <code>h6</code>.</li>
+            <li>Tester la navigation par titres avec un lecteur d’écran.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Activer TalkBack ou VoiceOver.</li>
+            <li>Parcourir les écrans avec les commandes de navigation.</li>
+            <li>Vérifier l’ordre d’annonce des sections et des contrôles.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Afficher le volet de navigation ou la structure du document.</li>
+            <li>Vérifier l’usage des styles de titres.</li>
+            <li>Vérifier les listes et l’ordre de lecture du PDF exporté.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Vérifier la hiérarchie visuelle des titres.</li>
+            <li>Prévoir une structure indépendante de la couleur.</li>
+            <li>Annoter l’ordre de lecture attendu.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 2 -->
+    <section class="module" id="module-2">
+      <h2>Module 2 — Navigation et déplacement</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier qu’une personne peut parcourir le contenu et atteindre tous
+        les éléments utiles.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Tous les éléments interactifs sont atteignables.</li>
+        <li>L’ordre de navigation est logique.</li>
+        <li>Le focus est visible.</li>
+        <li>Aucun élément ne bloque la navigation.</li>
+        <li>Les actions ne dépendent pas uniquement de la souris ou d’un geste.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Quel est l’ordre de navigation logique ?</h3>
+
+        <fieldset>
+          <legend>Choisissez l’ordre attendu.</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q2" value="0">
+              <span>Logo → bouton Menu → titre → recherche → bouton Rechercher → contenu</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q2" value="1">
+              <span>Contenu → bouton Rechercher → logo → titre → recherche → menu</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q2" value="2">
+              <span>Logo → contenu → recherche → titre → menu → bouton Rechercher</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q2" data-correct="0">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q2" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Débrancher la souris.</li>
+            <li>Utiliser la touche <kbd>Tab</kbd>.</li>
+            <li>Vérifier que le focus est visible.</li>
+            <li>Tester <kbd>Entrée</kbd>, <kbd>Espace</kbd>, les flèches et <kbd>Échap</kbd>.</li>
+            <li>Vérifier l’absence de piège clavier.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Activer TalkBack ou VoiceOver.</li>
+            <li>Balayer avec un doigt.</li>
+            <li>Vérifier l’ordre de lecture.</li>
+            <li>Tester toutes les actions proposées par les composants.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Tester le volet de navigation.</li>
+            <li>Lire le document avec un lecteur d’écran.</li>
+            <li>Vérifier l’ordre de lecture des blocs et des liens.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Définir le parcours clavier attendu.</li>
+            <li>Annoter l’ordre de lecture.</li>
+            <li>Documenter les changements d’écran.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 3 -->
+    <section class="module" id="module-3">
+      <h2>Module 3 — Composants interactifs</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        identifier correctement les liens, boutons, menus et autres contrôles.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Chaque composant possède un nom compréhensible.</li>
+        <li>Son rôle est identifiable.</li>
+        <li>Ses états sont perceptibles.</li>
+        <li>Son action est prévisible.</li>
+        <li>Les liens et les boutons sont distingués.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Lien ou bouton ?</h3>
+
+        <fieldset>
+          <legend>
+            Quel composant est le plus adapté pour « Ouvrir le menu » ?
+          </legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q3" value="0">
+              <span>Un lien vers une page inconnue</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q3" value="1">
+              <span>Un bouton qui ouvre ou ferme le menu</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q3" value="2">
+              <span>Un texte non interactif</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q3" data-correct="1">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q3" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Vérifier les rôles HTML utilisés.</li>
+            <li>Utiliser <code>a</code> pour naviguer et <code>button</code> pour agir.</li>
+            <li>Vérifier le nom accessible.</li>
+            <li>Tester les états au clavier et à la souris.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Vérifier que le type du composant est annoncé.</li>
+            <li>Vérifier les états activé, désactivé, sélectionné et ouvert.</li>
+            <li>Vérifier les actions disponibles.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Tester les liens et les champs de formulaire.</li>
+            <li>Vérifier que les éléments décoratifs ne sont pas interactifs.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Documenter le nom, le rôle et le comportement.</li>
+            <li>Prévoir les états repos, focus, actif, erreur, succès et chargement.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 4 -->
+    <section class="module" id="module-4">
+      <h2>Module 4 — Formulaires et erreurs</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier qu’un formulaire peut être compris, complété et corrigé.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Chaque champ possède une étiquette visible.</li>
+        <li>Le placeholder ne remplace pas l’étiquette.</li>
+        <li>Les champs obligatoires sont clairement indiqués.</li>
+        <li>Les messages d’erreur indiquent le champ concerné et le problème.</li>
+        <li>Le message d’erreur est associé au champ.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Quelle erreur est la plus utile ?</h3>
+
+        <fieldset>
+          <legend>Choisissez le meilleur message.</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q4" value="0">
+              <span>Erreur</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q4" value="1">
+              <span>Champ incorrect</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q4" value="2">
+              <span>Adresse e-mail invalide</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q4" value="3">
+              <span>Veuillez saisir une adresse au format nom@exemple.fr dans le champ Adresse e-mail.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q4" data-correct="3">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q4" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Vérifier l’association entre <code>label</code> et <code>input</code>.</li>
+            <li>Indiquer les champs obligatoires en toutes lettres ou expliquer l’astérisque.</li>
+            <li>Associer l’erreur avec <code>aria-describedby</code>.</li>
+            <li>Tester l’annonce avec un lecteur d’écran.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Vérifier le nom, le type et l’état obligatoire du champ.</li>
+            <li>Saisir une valeur incorrecte.</li>
+            <li>Vérifier l’annonce de l’erreur.</li>
+            <li>Vérifier que le clavier ne masque pas le message.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Tester les champs avec un lecteur d’écran.</li>
+            <li>Vérifier les noms et instructions des champs.</li>
+            <li>Vérifier les indications obligatoires.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Prévoir les états vide, rempli, obligatoire et erreur.</li>
+            <li>Prévoir les états validation, succès et chargement.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 5 -->
+    <section class="module" id="module-5">
+      <h2>Module 5 — Lisibilité, agrandissement et adaptation</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier que le contenu reste utilisable lorsque la taille du texte ou
+        de l’écran change.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Le contenu reste lisible avec un texte agrandi.</li>
+        <li>Les informations ne sont pas coupées.</li>
+        <li>Les composants ne se chevauchent pas.</li>
+        <li>La mise en page s’adapte aux petits écrans.</li>
+        <li>Les unités relatives sont privilégiées.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Que se passe-t-il à 200 % ?</h3>
+
+        <fieldset>
+          <legend>Quelle situation est acceptable ?</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q5" value="0">
+              <span>Le texte est agrandi et reste lisible sans perte d’information.</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q5" value="1">
+              <span>Le texte est coupé et les boutons se chevauchent.</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q5" value="2">
+              <span>Le contenu est entièrement remplacé par un défilement horizontal.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q5" data-correct="0">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q5" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Agrandir l’affichage à 200 %.</li>
+            <li>Tester une largeur équivalente à environ 320 pixels CSS.</li>
+            <li>Vérifier l’absence de défilement horizontal inutile.</li>
+            <li>Vérifier que les contrôles restent utilisables.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Augmenter la taille du texte dans les réglages.</li>
+            <li>Tester les tailles de texte importantes.</li>
+            <li>Tester les orientations prévues.</li>
+            <li>Vérifier que les contenus ne sont pas coupés.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Agrandir le texte.</li>
+            <li>Vérifier l’ordre de lecture.</li>
+            <li>Tester le document exporté en PDF.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Tester les largeurs réduites.</li>
+            <li>Tester les textes longs et les traductions.</li>
+            <li>Tester une taille de caractères importante.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 6 -->
+    <section class="module" id="module-6">
+      <h2>Module 6 — Contrastes et utilisation de la couleur</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier que les textes, composants, graphiques et états restent
+        perceptibles.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Le texte normal atteint généralement un contraste de 4,5:1.</li>
+        <li>Les grands textes atteignent généralement un contraste de 3:1.</li>
+        <li>Les composants essentiels et le focus atteignent généralement 3:1.</li>
+        <li>La couleur ne constitue jamais la seule information.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Quel texte est le plus lisible ?</h3>
+
+        <fieldset>
+          <legend>Choisissez la combinaison la plus contrastée.</legend>
+
+          <div class="options">
+            <label class="option option--visual">
+              <input type="radio" name="q6" value="0">
+              <span class="contrast-demo contrast-a">Texte gris clair sur blanc</span>
+            </label>
+
+            <label class="option option--visual">
+              <input type="radio" name="q6" value="1">
+              <span class="contrast-demo contrast-b">Texte noir sur blanc</span>
+            </label>
+
+            <label class="option option--visual">
+              <input type="radio" name="q6" value="2">
+              <span class="contrast-demo contrast-c">Texte bleu clair sur blanc</span>
+            </label>
+
+            <label class="option option--visual">
+              <input type="radio" name="q6" value="3">
+              <span class="contrast-demo contrast-d">Texte gris foncé sur gris clair</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q6" data-correct="1">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q6" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Utiliser Colour Contrast Analyser, axe DevTools ou Lighthouse.</li>
+            <li>Tester les textes, bordures, états et indicateurs de focus.</li>
+            <li>Vérifier que les erreurs ne reposent pas uniquement sur la couleur.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Tester les états sélectionné, désactivé, erreur et focus.</li>
+            <li>Activer les réglages de contraste renforcé.</li>
+            <li>Vérifier que les informations sont aussi transmises par le texte ou une forme.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Utiliser un vérificateur de contraste.</li>
+            <li>Tester le document en niveaux de gris.</li>
+            <li>Contrôler les graphiques et illustrations informatives.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Tester les couleurs avec un outil de contraste.</li>
+            <li>Tester tous les états des composants.</li>
+            <li>Prévoir une information complémentaire à la couleur.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 7 -->
+    <section class="module" id="module-7">
+      <h2>Module 7 — Images et alternatives textuelles</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        déterminer si une image est décorative, informative, fonctionnelle ou
+        porteuse d’une information complexe.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Une image décorative peut être ignorée.</li>
+        <li>Une image informative possède une alternative pertinente.</li>
+        <li>Une image fonctionnelle décrit l’action déclenchée.</li>
+        <li>Les informations importantes ne sont pas uniquement présentes dans une image.</li>
+        <li>Les graphiques complexes possèdent une description adaptée.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Quelle alternative est la plus pertinente ?</h3>
+
+        <p>
+          L’image représente un graphique montrant une augmentation du chiffre
+          d’affaires entre janvier et juin.
+        </p>
+
+        <fieldset>
+          <legend>Choisissez l’alternative la plus informative.</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q7" value="0">
+              <span>Image</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q7" value="1">
+              <span>Graphique</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q7" value="2">
+              <span>Évolution du chiffre d’affaires entre janvier et juin</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q7" value="3">
+              <span>Aucune alternative</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q7" data-correct="2">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q7" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Inspecter l’attribut <code>alt</code>.</li>
+            <li>Vérifier les images décoratives.</li>
+            <li>Vérifier les images fonctionnelles utilisées comme liens ou boutons.</li>
+            <li>Identifier les textes importants présents dans des images.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Activer TalkBack ou VoiceOver.</li>
+            <li>Vérifier les descriptions d’images.</li>
+            <li>Vérifier que les images décoratives peuvent être ignorées.</li>
+            <li>Contrôler le nom accessible des boutons illustrés.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Utiliser le panneau de texte de remplacement.</li>
+            <li>Marquer les images décoratives comme décoratives.</li>
+            <li>Vérifier l’ordre de lecture.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Annoter chaque image comme décorative, informative ou fonctionnelle.</li>
+            <li>Prévoir une description longue pour les graphiques complexes.</li>
+            <li>Identifier les images contenant du texte.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 8 -->
+    <section class="module" id="module-8">
+      <h2>Module 8 — Langue, titres et contexte</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier qu’une personne comprend où elle se trouve et dans quelle
+        langue le contenu doit être interprété.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Chaque page ou écran possède un titre explicite.</li>
+        <li>La langue principale est définie.</li>
+        <li>Les changements de langue sont signalés.</li>
+        <li>Les liens et boutons sont compréhensibles hors contexte.</li>
+        <li>Les libellés répétés sont suffisamment contextualisés.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Quel lien est le plus explicite ?</h3>
+
+        <fieldset>
+          <legend>Choisissez le libellé le plus compréhensible isolément.</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q8" value="0">
+              <span>Cliquez ici</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q8" value="1">
+              <span>En savoir plus</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q8" value="2">
+              <span>Télécharger le guide de test d’accessibilité</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q8" value="3">
+              <span>Voir plus</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q8" data-correct="2">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q8" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Vérifier l’élément <code>title</code>.</li>
+            <li>Vérifier l’attribut <code>lang</code>.</li>
+            <li>Identifier les changements de langue.</li>
+            <li>Examiner les liens hors de leur contexte visuel.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Vérifier la langue annoncée par le lecteur d’écran.</li>
+            <li>Tester les contenus multilingues.</li>
+            <li>Vérifier les noms accessibles des écrans et contrôles.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Vérifier la langue principale du document.</li>
+            <li>Vérifier les changements de langue.</li>
+            <li>Vérifier le titre dans les propriétés du fichier.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Documenter le titre de chaque écran.</li>
+            <li>Prévoir les textes longs et les variantes linguistiques.</li>
+            <li>Documenter les libellés accessibles.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 9 -->
+    <section class="module" id="module-9">
+      <h2>Module 9 — Interactions tactiles et gestes</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier que les interactions sont réalisables avec différentes capacités
+        motrices et différents modes d’utilisation.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Les zones tactiles sont suffisamment grandes.</li>
+        <li>Les contrôles sont suffisamment espacés.</li>
+        <li>Les gestes complexes possèdent une alternative.</li>
+        <li>Les actions ne dépendent pas uniquement du mouvement.</li>
+        <li>Les commandes restent utilisables dans l’orientation prévue.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Quelle zone d’activation est la plus robuste ?</h3>
+
+        <fieldset>
+          <legend>Choisissez la meilleure solution.</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q9" value="0">
+              <span>Une icône seule de 16 × 16 pixels.</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q9" value="1">
+              <span>Une icône de 24 × 24 pixels sans espace autour.</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q9" value="2">
+              <span>Une icône avec une zone d’activation suffisamment grande et espacée.</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="q9" value="3">
+              <span>Une commande activable uniquement par un geste complexe.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q9" data-correct="2">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q9" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Vérifier la taille et l’espacement des contrôles.</li>
+            <li>Tester l’activation au clavier.</li>
+            <li>Prévoir une alternative aux gestes complexes.</li>
+            <li>Tester avec un pointeur imprécis.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Tester les zones tactiles.</li>
+            <li>Tester l’usage avec une seule main.</li>
+            <li>Tester les gestes alternatifs.</li>
+            <li>Tester les orientations portrait et paysage.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Vérifier la taille et l’espacement des liens.</li>
+            <li>Tester les liens sur écran tactile.</li>
+            <li>Ne pas dépendre du survol.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Annoter la zone visuelle et la zone tactile.</li>
+            <li>Documenter l’espacement minimal.</li>
+            <li>Prévoir les alternatives aux gestes.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 10 -->
+    <section class="module" id="module-10">
+      <h2>Module 10 — Audio, vidéo et animations</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier que les contenus multimédias peuvent être compris et contrôlés.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Les vidéos possèdent des sous-titres lorsque cela est nécessaire.</li>
+        <li>Une transcription est disponible.</li>
+        <li>Une audiodescription est prévue lorsque les informations visuelles sont indispensables.</li>
+        <li>Les contrôles sont accessibles.</li>
+        <li>Les animations automatiques peuvent être mises en pause ou arrêtées.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Que faut-il prévoir pour cette vidéo ?</h3>
+
+        <p>
+          La vidéo contient un dialogue et présente des informations importantes
+          uniquement à l’écran.
+        </p>
+
+        <fieldset>
+          <legend>Sélectionnez les éléments nécessaires.</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="checkbox" name="q10" value="0">
+              <span>Des sous-titres.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q10" value="1">
+              <span>Une transcription.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q10" value="2">
+              <span>Une audiodescription si les informations visuelles sont indispensables.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q10" value="3">
+              <span>Aucun contrôle de lecture.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q10" data-correct="0,1,2">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q10" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Vérifier les sous-titres.</li>
+            <li>Vérifier la transcription.</li>
+            <li>Tester les contrôles au clavier.</li>
+            <li>Vérifier la pause des animations automatiques.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Tester le lecteur avec VoiceOver ou TalkBack.</li>
+            <li>Vérifier les sous-titres.</li>
+            <li>Vérifier les transcriptions et contrôles.</li>
+            <li>Tester la réduction des mouvements.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Vérifier les vidéos intégrées.</li>
+            <li>Ajouter une transcription à proximité.</li>
+            <li>Décrire les informations importantes de la vidéo.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Prévoir les états lecture et pause.</li>
+            <li>Prévoir les sous-titres et la transcription.</li>
+            <li>Prévoir la réduction ou l’arrêt des animations.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- MODULE 11 -->
+    <section class="module" id="module-11">
+      <h2>Module 11 — Messages, changements d’état et robustesse</h2>
+
+      <p class="objective">
+        <strong>Objectif :</strong>
+        vérifier qu’une personne est informée des changements importants sans
+        devoir les deviner.
+      </p>
+
+      <h3>Règles communes</h3>
+      <ul class="rules">
+        <li>Les états de chargement sont perceptibles.</li>
+        <li>Les réussites et les erreurs sont annoncées.</li>
+        <li>Les changements d’état sont compréhensibles.</li>
+        <li>Les actions irréversibles sont confirmées.</li>
+        <li>Les messages ne reposent pas uniquement sur la couleur, le son ou une animation.</li>
+      </ul>
+
+      <div class="activity">
+        <h3>Activité — Le message est-il suffisamment perceptible ?</h3>
+
+        <p>
+          Après l’envoi d’un formulaire, l’interface affiche uniquement une
+          coche verte en haut de page.
+        </p>
+
+        <fieldset>
+          <legend>Quels problèmes identifiez-vous ?</legend>
+
+          <div class="options">
+            <label class="option">
+              <input type="checkbox" name="q11" value="0">
+              <span>La réussite n’est pas annoncée par un texte.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q11" value="1">
+              <span>La couleur verte est utilisée seule.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q11" value="2">
+              <span>La personne peut ne pas savoir si l’action est terminée.</span>
+            </label>
+
+            <label class="option">
+              <input type="checkbox" name="q11" value="3">
+              <span>Une coche verte est toujours suffisante pour tout le monde.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="check-answer" data-question="q11" data-correct="0,1,2">
+          Vérifier ma réponse
+        </button>
+
+        <div id="feedback-q11" class="feedback" hidden role="status"></div>
+      </div>
+
+      <h3>Comment tester selon le support ?</h3>
+
+      <div class="tool-grid">
+        <details>
+          <summary>Web</summary>
+          <ul>
+            <li>Déclencher une action de chargement.</li>
+            <li>Vérifier les annonces de réussite et d’erreur.</li>
+            <li>Tester les mises à jour dynamiques avec un lecteur d’écran.</li>
+            <li>Vérifier la gestion du focus.</li>
+            <li>Examiner les zones d’annonce et les changements du DOM.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Android et iOS</summary>
+          <ul>
+            <li>Activer TalkBack ou VoiceOver.</li>
+            <li>Déclencher une action.</li>
+            <li>Vérifier les annonces de chargement, réussite et erreur.</li>
+            <li>Tester les changements d’état des boutons.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Documents</summary>
+          <ul>
+            <li>Vérifier les états des liens et champs interactifs.</li>
+            <li>Ne pas utiliser uniquement une couleur ou une icône.</li>
+            <li>Vérifier que les informations importantes sont explicites.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Maquettes</summary>
+          <ul>
+            <li>Prévoir les états chargement, succès et erreur.</li>
+            <li>Prévoir les cas sans résultat.</li>
+            <li>Prévoir les confirmations avant les actions irréversibles.</li>
+            <li>Prévoir les messages de sauvegarde.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    "use strict";
+
+    const feedbackMessages = {
+      single:
+        "Bravo, votre réponse est correcte. Vous avez identifié le principe essentiel de ce test.",
+      multiple:
+        "Bravo, vous avez identifié les principaux problèmes. Plusieurs vérifications peuvent être nécessaires selon le support.",
+      error:
+        "Votre réponse n’est pas encore correcte. Relisez les règles communes et essayez à nouveau."
+    };
+
+    const answerButtons = document.querySelectorAll(".check-answer");
+    const progress = document.querySelector("#progress");
+    const progressLabel = document.querySelector("#progress-label");
+
+    const validatedModules = new Set();
+
+    function getSelectedValues(questionName) {
+      return Array.from(
+        document.querySelectorAll(`input[name="${questionName}"]:checked`)
+      ).map((input) => input.value);
+    }
+
+    function arraysAreEqual(firstArray, secondArray) {
+      const first = [...firstArray].sort();
+      const second = [...secondArray].sort();
+
+      return (
+        first.length === second.length &&
+        first.every((value, index) => value === second[index])
+      );
+    }
+
+    function displayFeedback(questionName, isCorrect, expectedCount) {
+      const feedback = document.querySelector(`#feedback-${questionName}`);
+
+      feedback.hidden = false;
+      feedback.className = "feedback";
+
+      if (isCorrect) {
+        feedback.classList.add("feedback--success");
+        feedback.textContent =
+          expectedCount > 1
+            ? feedbackMessages.multiple
+            : feedbackMessages.single;
+      } else {
+        feedback.classList.add("feedback--error");
+        feedback.textContent = feedbackMessages.error;
+      }
+    }
+
+    function updateProgress() {
+      progress.value = validatedModules.size;
+      progressLabel.textContent =
+        `${validatedModules.size} module${validatedModules.size > 1 ? "s" : ""} validé${validatedModules.size > 1 ? "s" : ""} sur 11`;
+    }
+
+    answerButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const questionName = button.dataset.question;
+        const expectedAnswers = button.dataset.correct.split(",");
+        const selectedAnswers = getSelectedValues(questionName);
+
+        const isCorrect = arraysAreEqual(
+          selectedAnswers,
+          expectedAnswers
+        );
+
+        displayFeedback(
+          questionName,
+          isCorrect,
+          expectedAnswers.length
+        );
+
+        if (isCorrect) {
+          const module = button.closest(".module");
+          validatedModules.add(module.id);
+          updateProgress();
+        }
+      });
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>
